@@ -3,15 +3,24 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 
 /// Grid menu akses cepat ke halaman yang tidak masuk bottom navigation:
-/// Budget, Target Tabungan, Dompet, Kalender.
+/// Budget, Target Tabungan, Dompet, Transfer, Kalender.
 class QuickMenu extends StatelessWidget {
   const QuickMenu({super.key});
 
   static const _items = [
     (icon: Icons.pie_chart_outline, label: 'Budget', route: '/budget'),
     (icon: Icons.savings_outlined, label: 'Target Tabungan', route: '/savings'),
-    (icon: Icons.account_balance_wallet_outlined, label: 'Dompet', route: '/wallets'),
-    (icon: Icons.calendar_month_outlined, label: 'Kalender', route: '/calendar'),
+    (
+      icon: Icons.account_balance_wallet_outlined,
+      label: 'Dompet',
+      route: '/wallets'
+    ),
+    (icon: Icons.swap_horiz, label: 'Transfer', route: '/transfer'),
+    (
+      icon: Icons.calendar_month_outlined,
+      label: 'Kalender',
+      route: '/calendar'
+    ),
   ];
 
   @override
