@@ -22,6 +22,14 @@ class BudgetProvider extends ChangeNotifier {
   List<BudgetModel> get nearLimitOrOver =>
       _budgets.where((b) => b.isNearLimit || b.isOverBudget).toList();
 
+  /// Bersihkan cache di memori. Dipanggil saat logout supaya data akun
+  /// sebelumnya tidak sempat kelihatan di akun berikutnya yang login.
+  void clear() {
+    _budgets = [];
+    _error = null;
+    notifyListeners();
+  }
+
   /// Muat budget untuk bulan/tahun tertentu, sekaligus hitung "spent" dari
   /// transaksi yang sudah ada di [TransactionProvider] (harus di-load duluan).
   Future<void> loadBudgets({
@@ -38,8 +46,10 @@ class BudgetProvider extends ChangeNotifier {
       final raw = await _repository.getByMonth(_month, _year);
       final start = DateTime(_year, _month, 1);
       final end = DateTime(_year, _month + 1, 1);
-      final spentMap = transactionProvider.expenseByCategoryForRange(start, end);
-      _budgets = raw.map((b) => b.copyWithSpent(spentMap[b.category] ?? 0)).toList();
+      final spentMap =
+          transactionProvider.expenseByCategoryForRange(start, end);
+      _budgets =
+          raw.map((b) => b.copyWithSpent(spentMap[b.category] ?? 0)).toList();
     } catch (e) {
       _error = e.toString();
     } finally {

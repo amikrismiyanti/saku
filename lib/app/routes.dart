@@ -1,5 +1,10 @@
 import 'package:go_router/go_router.dart';
+import '../core/services/supabase_service.dart';
+import '../core/utils/go_router_refresh_stream.dart';
 import '../widgets/app_bottom_navigation.dart';
+import '../screens/auth/login_screen.dart';
+import '../screens/auth/register_screen.dart';
+import '../screens/auth/forgot_password_screen.dart';
 import '../screens/dashboard/dashboard_screen.dart';
 import '../screens/transactions/transactions_screen.dart';
 import '../screens/transactions/add_transaction_screen.dart';
@@ -18,12 +23,35 @@ import '../screens/transfer/add_transfer_screen.dart';
 import '../screens/calendar/calendar_screen.dart';
 import '../screens/settings/settings_screen.dart';
 
+const _authRoutes = ['/login', '/register', '/forgot-password'];
+
 /// Definisi routing aplikasi dengan go_router.
 /// 5 tab utama dibungkus [AppBottomNavigation]; halaman sekunder
 /// (budget, target tabungan, dompet, transfer, kalender) diakses dari Dashboard.
+///
+/// Halaman auth (/login, /register, /forgot-password) berada di luar shell.
+/// `redirect` + `refreshListenable` menjaga supaya:
+/// - user yang belum login selalu diarahkan ke /login
+/// - user yang sudah login tidak bisa balik lagi ke halaman auth
 final GoRouter appRouter = GoRouter(
   initialLocation: '/dashboard',
+  refreshListenable:
+      GoRouterRefreshStream(SupabaseService.client.auth.onAuthStateChange),
+  redirect: (context, state) {
+    final loggedIn = SupabaseService.client.auth.currentSession != null;
+    final isAuthRoute = _authRoutes.contains(state.matchedLocation);
+
+    if (!loggedIn && !isAuthRoute) return '/login';
+    if (loggedIn && isAuthRoute) return '/dashboard';
+    return null;
+  },
   routes: [
+    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+    GoRoute(
+        path: '/register', builder: (context, state) => const RegisterScreen()),
+    GoRoute(
+        path: '/forgot-password',
+        builder: (context, state) => const ForgotPasswordScreen()),
     ShellRoute(
       builder: (context, state, child) => AppBottomNavigation(child: child),
       routes: [

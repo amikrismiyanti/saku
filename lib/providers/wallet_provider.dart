@@ -2,8 +2,6 @@ import 'package:flutter/foundation.dart';
 import '../models/wallet_model.dart';
 import '../repositories/wallet_repository.dart';
 
-/// Ganti isi wallet_provider.dart lama kamu dengan file ini
-/// (menambahkan method updateWallet untuk fitur edit dompet).
 class WalletProvider extends ChangeNotifier {
   final WalletRepository _repository = WalletRepository();
 
@@ -15,6 +13,14 @@ class WalletProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
   double get totalBalance => _wallets.fold(0, (sum, w) => sum + w.balance);
+
+  /// Bersihkan cache di memori. Dipanggil saat logout supaya data akun
+  /// sebelumnya tidak sempat kelihatan di akun berikutnya yang login.
+  void clear() {
+    _wallets = [];
+    _error = null;
+    notifyListeners();
+  }
 
   Future<void> loadWallets() async {
     _isLoading = true;

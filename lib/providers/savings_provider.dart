@@ -18,6 +18,14 @@ class SavingsProvider extends ChangeNotifier {
   List<SavingsGoalModel> get completed =>
       _goals.where((g) => g.isCompleted).toList();
 
+  /// Bersihkan cache di memori. Dipanggil saat logout supaya data akun
+  /// sebelumnya tidak sempat kelihatan di akun berikutnya yang login.
+  void clear() {
+    _goals = [];
+    _error = null;
+    notifyListeners();
+  }
+
   Future<void> loadGoals() async {
     _isLoading = true;
     _error = null;

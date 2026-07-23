@@ -82,6 +82,14 @@ class TransactionProvider extends ChangeNotifier {
     }
   }
 
+  /// Bersihkan cache di memori. Dipanggil saat logout supaya data akun
+  /// sebelumnya tidak sempat kelihatan di akun berikutnya yang login.
+  void clear() {
+    _transactions = [];
+    _error = null;
+    notifyListeners();
+  }
+
   /// Total pengeluaran per kategori dalam rentang [start, end) apapun —
   /// dipakai oleh BudgetProvider dan halaman Laporan.
   Map<String, double> expenseByCategoryForRange(DateTime start, DateTime end) {

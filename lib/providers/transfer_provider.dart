@@ -13,6 +13,14 @@ class TransferProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
 
+  /// Bersihkan cache di memori. Dipanggil saat logout supaya data akun
+  /// sebelumnya tidak sempat kelihatan di akun berikutnya yang login.
+  void clear() {
+    _transfers = [];
+    _error = null;
+    notifyListeners();
+  }
+
   Future<void> loadTransfers() async {
     _isLoading = true;
     _error = null;
