@@ -75,8 +75,9 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/transactions/:id',
       builder: (context, state) {
-        final tx = state.extra as TransactionModel;
-        return TransactionDetailScreen(transaction: tx);
+        final tx = state.extra as TransactionModel?;
+        final id = state.pathParameters['id']!;
+        return TransactionDetailScreen(transactionId: id, transaction: tx);
       },
     ),
     GoRoute(path: '/budget', builder: (context, state) => const BudgetScreen()),
