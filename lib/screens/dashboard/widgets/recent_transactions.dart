@@ -15,7 +15,8 @@ class RecentTransactions extends StatelessWidget {
       return const Padding(
         padding: EdgeInsets.symmetric(vertical: 24),
         child: Center(
-          child: Text('Belum ada transaksi', style: TextStyle(color: AppColors.textSecondary)),
+          child: Text('Belum ada transaksi',
+              style: TextStyle(color: AppColors.textSecondary)),
         ),
       );
     }
@@ -28,7 +29,8 @@ class RecentTransactions extends StatelessWidget {
           child: ListTile(
             onTap: () => context.push('/transactions/${t.id}', extra: t),
             leading: CircleAvatar(
-              backgroundColor: (isIncome ? AppColors.income : AppColors.expense).withOpacity(0.12),
+              backgroundColor: (isIncome ? AppColors.income : AppColors.expense)
+                  .withValues(alpha: 0.12),
               child: Icon(
                 isIncome ? Icons.arrow_downward : Icons.arrow_upward,
                 color: isIncome ? AppColors.income : AppColors.expense,

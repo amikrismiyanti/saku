@@ -70,7 +70,7 @@ class _AddBudgetScreenState extends State<AddBudgetScreen> {
             Text('Kategori', style: Theme.of(context).textTheme.labelLarge),
             const SizedBox(height: 6),
             DropdownButtonFormField<String>(
-              value: _category,
+              initialValue: _category,
               hint: const Text('Pilih kategori pengeluaran'),
               items: AppCategories.expense
                   .map((c) => DropdownMenuItem(value: c, child: Text(c)))

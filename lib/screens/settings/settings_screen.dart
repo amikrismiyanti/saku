@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/constants/app_colors.dart';
-import '../../core/constants/app_constants.dart';
 import '../../core/utils/export_service.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/theme_provider.dart';
@@ -124,18 +123,6 @@ class SettingsScreen extends StatelessWidget {
               subtitle:
                   const Text('Unduh seluruh riwayat transaksi (hanya di Web)'),
               onTap: () => _exportData(context),
-            ),
-          ),
-          const SizedBox(height: 24),
-          const Text('Tentang',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-          const SizedBox(height: 8),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: Text(AppConstants.appName),
-              subtitle: const Text(
-                  'Aplikasi keuangan pribadi — Flutter Web + Supabase + PWA'),
             ),
           ),
         ],

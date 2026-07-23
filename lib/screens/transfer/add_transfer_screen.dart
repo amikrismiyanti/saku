@@ -54,7 +54,8 @@ class _AddTransferScreenState extends State<AddTransferScreen> {
     }
     if (_fromWalletId == _toWalletId) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Dompet asal dan tujuan tidak boleh sama')),
+        const SnackBar(
+            content: Text('Dompet asal dan tujuan tidak boleh sama')),
       );
       return;
     }
@@ -107,10 +108,11 @@ class _AddTransferScreenState extends State<AddTransferScreen> {
             Text('Dari Dompet', style: Theme.of(context).textTheme.labelLarge),
             const SizedBox(height: 6),
             DropdownButtonFormField<String>(
-              value: _fromWalletId,
+              initialValue: _fromWalletId,
               hint: const Text('Pilih dompet asal'),
               items: wallets
-                  .map((w) => DropdownMenuItem(value: w.id, child: Text(w.name)))
+                  .map(
+                      (w) => DropdownMenuItem(value: w.id, child: Text(w.name)))
                   .toList(),
               onChanged: (v) => setState(() => _fromWalletId = v),
             ),
@@ -118,10 +120,11 @@ class _AddTransferScreenState extends State<AddTransferScreen> {
             Text('Ke Dompet', style: Theme.of(context).textTheme.labelLarge),
             const SizedBox(height: 6),
             DropdownButtonFormField<String>(
-              value: _toWalletId,
+              initialValue: _toWalletId,
               hint: const Text('Pilih dompet tujuan'),
               items: wallets
-                  .map((w) => DropdownMenuItem(value: w.id, child: Text(w.name)))
+                  .map(
+                      (w) => DropdownMenuItem(value: w.id, child: Text(w.name)))
                   .toList(),
               onChanged: (v) => setState(() => _toWalletId = v),
             ),
@@ -140,7 +143,8 @@ class _AddTransferScreenState extends State<AddTransferScreen> {
             ),
             const SizedBox(height: 16),
             CustomTextField(
-              controller: TextEditingController(text: DateFormatter.full(_date)),
+              controller:
+                  TextEditingController(text: DateFormatter.full(_date)),
               label: 'Tanggal',
               readOnly: true,
               onTap: _pickDate,

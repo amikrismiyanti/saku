@@ -47,7 +47,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
       _category = tx.category;
       _walletId = tx.walletId;
       _date = tx.date;
-      _amountController.text = CurrencyFormatter.format(tx.amount).replaceAll('Rp', '').trim();
+      _amountController.text =
+          CurrencyFormatter.format(tx.amount).replaceAll('Rp', '').trim();
       _descriptionController.text = tx.description ?? '';
       _paymentMethodController.text = tx.paymentMethod ?? '';
     }
@@ -61,8 +62,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     super.dispose();
   }
 
-  List<String> get _categoryOptions =>
-      _type == TransactionType.income ? AppCategories.income : AppCategories.expense;
+  List<String> get _categoryOptions => _type == TransactionType.income
+      ? AppCategories.income
+      : AppCategories.expense;
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
@@ -132,7 +134,10 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(_isEditMode ? 'Transaksi diperbarui' : 'Transaksi ditambahkan')),
+          SnackBar(
+              content: Text(_isEditMode
+                  ? 'Transaksi diperbarui'
+                  : 'Transaksi ditambahkan')),
         );
         if (_isEditMode) Navigator.of(context).pop();
         _resetFormIfNeeded();
@@ -165,7 +170,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     final wallets = context.watch<WalletProvider>().wallets;
 
     return Scaffold(
-      appBar: AppBar(title: Text(_isEditMode ? 'Edit Transaksi' : 'Tambah Transaksi')),
+      appBar: AppBar(
+          title: Text(_isEditMode ? 'Edit Transaksi' : 'Tambah Transaksi')),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -193,8 +199,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 });
               },
               style: SegmentedButton.styleFrom(
-                selectedBackgroundColor:
-                    _type == TransactionType.income ? AppColors.income : AppColors.expense,
+                selectedBackgroundColor: _type == TransactionType.income
+                    ? AppColors.income
+                    : AppColors.expense,
                 selectedForegroundColor: Colors.white,
               ),
             ),
@@ -205,7 +212,10 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
               label: 'Nominal',
               hint: '0',
               keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly, CurrencyInputFormatter()],
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                CurrencyInputFormatter()
+              ],
               prefixText: const Text('Rp '),
               validator: (v) => Validators.amount(_amountController.text),
             ),
@@ -214,7 +224,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             Text('Kategori', style: Theme.of(context).textTheme.labelLarge),
             const SizedBox(height: 6),
             DropdownButtonFormField<String>(
-              value: _category,
+              initialValue: _category,
               hint: const Text('Pilih kategori'),
               items: _categoryOptions
                   .map((c) => DropdownMenuItem(value: c, child: Text(c)))
@@ -227,17 +237,19 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             Text('Dompet', style: Theme.of(context).textTheme.labelLarge),
             const SizedBox(height: 6),
             DropdownButtonFormField<String>(
-              value: _walletId,
+              initialValue: _walletId,
               hint: const Text('Pilih dompet'),
               items: wallets
-                  .map((w) => DropdownMenuItem(value: w.id, child: Text(w.name)))
+                  .map(
+                      (w) => DropdownMenuItem(value: w.id, child: Text(w.name)))
                   .toList(),
               onChanged: (v) => setState(() => _walletId = v),
             ),
             const SizedBox(height: 16),
 
             CustomTextField(
-              controller: TextEditingController(text: DateFormatter.full(_date)),
+              controller:
+                  TextEditingController(text: DateFormatter.full(_date)),
               label: 'Tanggal',
               readOnly: true,
               onTap: _pickDate,
@@ -268,7 +280,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
               label: _isEditMode ? 'Simpan Perubahan' : 'Simpan Transaksi',
               onPressed: _save,
               isLoading: _isSaving,
-              color: _type == TransactionType.income ? AppColors.income : AppColors.expense,
+              color: _type == TransactionType.income
+                  ? AppColors.income
+                  : AppColors.expense,
             ),
           ],
         ),

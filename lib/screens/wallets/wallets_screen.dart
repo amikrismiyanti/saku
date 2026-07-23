@@ -95,16 +95,28 @@ class _WalletsScreenState extends State<WalletsScreen> {
         child: provider.isLoading && provider.wallets.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : provider.wallets.isEmpty
-                ? const EmptyState(
-                    message:
-                        'Belum ada dompet.\nTekan "Tambah Dompet" untuk mulai.',
-                    icon: Icons.account_balance_wallet_outlined,
+                ? LayoutBuilder(
+                    builder: (context, constraints) => SingleChildScrollView(
+                      physics:
+                          const AlwaysScrollableScrollPhysics(), // wajib, biar RefreshIndicator tetap bisa di-drag walau konten pendek
+                      child: ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minHeight: constraints.maxHeight),
+                        child: const Center(
+                          child: EmptyState(
+                            message:
+                                'Belum ada dompet.\nTekan "Tambah Dompet" untuk mulai.',
+                            icon: Icons.account_balance_wallet_outlined,
+                          ),
+                        ),
+                      ),
+                    ),
                   )
                 : ListView(
                     padding: const EdgeInsets.all(16),
                     children: [
                       Card(
-                        color: AppColors.primary.withOpacity(0.06),
+                        color: AppColors.primary.withValues(alpha: 0.06),
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Row(
@@ -130,7 +142,7 @@ class _WalletsScreenState extends State<WalletsScreen> {
                           child: ListTile(
                             leading: CircleAvatar(
                               backgroundColor:
-                                  AppColors.primary.withOpacity(0.1),
+                                  AppColors.primary.withValues(alpha: 0.1),
                               child: Icon(_iconFor(w.type),
                                   color: AppColors.primary, size: 20),
                             ),

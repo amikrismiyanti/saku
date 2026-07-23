@@ -123,7 +123,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     color: isSelected
                         ? AppColors.primary
                         : isToday
-                            ? AppColors.primary.withOpacity(0.1)
+                            ? AppColors.primary.withValues(alpha: 0.1)
                             : null,
                     borderRadius: BorderRadius.circular(10),
                   ),

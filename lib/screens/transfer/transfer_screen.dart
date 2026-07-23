@@ -48,7 +48,8 @@ class _TransferScreenState extends State<TransferScreen> {
               child: const Text('Batal')),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Hapus', style: TextStyle(color: AppColors.danger)),
+            child:
+                const Text('Hapus', style: TextStyle(color: AppColors.danger)),
           ),
         ],
       ),
@@ -79,9 +80,21 @@ class _TransferScreenState extends State<TransferScreen> {
         child: provider.isLoading && provider.transfers.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : provider.transfers.isEmpty
-                ? const EmptyState(
-                    message: 'Belum ada transfer antar dompet.',
-                    icon: Icons.swap_horiz,
+                ? LayoutBuilder(
+                    builder: (context, constraints) => SingleChildScrollView(
+                      physics:
+                          const AlwaysScrollableScrollPhysics(), // wajib, biar RefreshIndicator tetap bisa di-drag walau konten pendek
+                      child: ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minHeight: constraints.maxHeight),
+                        child: const Center(
+                          child: EmptyState(
+                            message: 'Belum ada transfer antar dompet.',
+                            icon: Icons.swap_horiz,
+                          ),
+                        ),
+                      ),
+                    ),
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.all(16),
@@ -93,12 +106,15 @@ class _TransferScreenState extends State<TransferScreen> {
                         child: ListTile(
                           leading: const CircleAvatar(
                             backgroundColor: Color(0x1A2563EB),
-                            child: Icon(Icons.swap_horiz, color: AppColors.transfer, size: 18),
+                            child: Icon(Icons.swap_horiz,
+                                color: AppColors.transfer, size: 18),
                           ),
                           title: Text(
                               '${_walletName(t.fromWalletId, wallets)} → ${_walletName(t.toWalletId, wallets)}'),
                           subtitle: Text(DateFormatter.short(t.date) +
-                              (t.description != null ? ' • ${t.description}' : '')),
+                              (t.description != null
+                                  ? ' • ${t.description}'
+                                  : '')),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -107,7 +123,8 @@ class _TransferScreenState extends State<TransferScreen> {
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.transfer)),
                               IconButton(
-                                icon: const Icon(Icons.delete_outline, size: 18),
+                                icon:
+                                    const Icon(Icons.delete_outline, size: 18),
                                 onPressed: () => _confirmDelete(t),
                                 visualDensity: VisualDensity.compact,
                               ),

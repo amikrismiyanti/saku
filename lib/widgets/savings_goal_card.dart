@@ -57,8 +57,8 @@ class SavingsGoalCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               '${CurrencyFormatter.format(goal.currentAmount)} / ${CurrencyFormatter.format(goal.targetAmount)}',
-              style: const TextStyle(
-                  color: AppColors.textSecondary, fontSize: 13),
+              style:
+                  const TextStyle(color: AppColors.textSecondary, fontSize: 13),
             ),
             const SizedBox(height: 10),
             ClipRRect(

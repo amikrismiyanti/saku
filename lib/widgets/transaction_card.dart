@@ -18,20 +18,27 @@ class TransactionCard extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         leading: CircleAvatar(
-          backgroundColor: (isIncome ? AppColors.income : AppColors.expense).withOpacity(0.12),
+          backgroundColor: (isIncome ? AppColors.income : AppColors.expense)
+              .withValues(alpha: 0.12),
           child: Icon(
             isIncome ? Icons.arrow_downward : Icons.arrow_upward,
             color: isIncome ? AppColors.income : AppColors.expense,
             size: 18,
           ),
         ),
-        title: Text(transaction.category, style: const TextStyle(fontWeight: FontWeight.w600)),
-        subtitle: transaction.description != null && transaction.description!.isNotEmpty
-            ? Text(transaction.description!, maxLines: 1, overflow: TextOverflow.ellipsis)
+        title: Text(transaction.category,
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        subtitle: transaction.description != null &&
+                transaction.description!.isNotEmpty
+            ? Text(transaction.description!,
+                maxLines: 1, overflow: TextOverflow.ellipsis)
             : null,
         trailing: Text(
-          CurrencyFormatter.formatSigned(transaction.amount, isIncome: isIncome),
-          style: TextStyle(color: isIncome ? AppColors.income : AppColors.expense, fontWeight: FontWeight.bold),
+          CurrencyFormatter.formatSigned(transaction.amount,
+              isIncome: isIncome),
+          style: TextStyle(
+              color: isIncome ? AppColors.income : AppColors.expense,
+              fontWeight: FontWeight.bold),
         ),
       ),
     );

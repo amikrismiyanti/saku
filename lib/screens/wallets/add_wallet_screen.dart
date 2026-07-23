@@ -85,7 +85,8 @@ class _AddWalletScreenState extends State<AddWalletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_isEditMode ? 'Edit Dompet' : 'Tambah Dompet')),
+      appBar:
+          AppBar(title: Text(_isEditMode ? 'Edit Dompet' : 'Tambah Dompet')),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -101,7 +102,7 @@ class _AddWalletScreenState extends State<AddWalletScreen> {
             Text('Jenis Dompet', style: Theme.of(context).textTheme.labelLarge),
             const SizedBox(height: 6),
             DropdownButtonFormField<String>(
-              value: _type,
+              initialValue: _type,
               items: AppConstants.walletTypes
                   .map((t) => DropdownMenuItem(value: t, child: Text(t)))
                   .toList(),

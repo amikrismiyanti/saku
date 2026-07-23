@@ -40,7 +40,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   List<TransactionModel> _applyFilters(List<TransactionModel> all) {
     return all.where((t) {
       if (_typeFilter != null && t.type != _typeFilter) return false;
-      if (_categoryFilter != null && t.category != _categoryFilter) return false;
+      if (_categoryFilter != null && t.category != _categoryFilter)
+        return false;
       if (_dateFilter != null) {
         final start = _dateFilter!.start;
         final end = _dateFilter!.end.add(const Duration(days: 1));
@@ -56,7 +57,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     }).toList();
   }
 
-  Map<String, List<TransactionModel>> _groupByDate(List<TransactionModel> list) {
+  Map<String, List<TransactionModel>> _groupByDate(
+      List<TransactionModel> list) {
     final sorted = [...list]..sort((a, b) => b.date.compareTo(a.date));
     final map = <String, List<TransactionModel>>{};
     for (final t in sorted) {
@@ -85,9 +87,11 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Filter Transaksi', style: Theme.of(ctx).textTheme.titleMedium),
+                  Text('Filter Transaksi',
+                      style: Theme.of(ctx).textTheme.titleMedium),
                   const SizedBox(height: 16),
-                  const Text('Jenis Transaksi', style: TextStyle(fontWeight: FontWeight.w600)),
+                  const Text('Jenis Transaksi',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8,
@@ -95,22 +99,26 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                       ChoiceChip(
                         label: const Text('Semua'),
                         selected: _typeFilter == null,
-                        onSelected: (_) => setSheetState(() => _typeFilter = null),
+                        onSelected: (_) =>
+                            setSheetState(() => _typeFilter = null),
                       ),
                       ChoiceChip(
                         label: const Text('Pemasukan'),
                         selected: _typeFilter == TransactionType.income,
-                        onSelected: (_) => setSheetState(() => _typeFilter = TransactionType.income),
+                        onSelected: (_) => setSheetState(
+                            () => _typeFilter = TransactionType.income),
                       ),
                       ChoiceChip(
                         label: const Text('Pengeluaran'),
                         selected: _typeFilter == TransactionType.expense,
-                        onSelected: (_) => setSheetState(() => _typeFilter = TransactionType.expense),
+                        onSelected: (_) => setSheetState(
+                            () => _typeFilter = TransactionType.expense),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16),
-                  const Text('Kategori', style: TextStyle(fontWeight: FontWeight.w600)),
+                  const Text('Kategori',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8,
@@ -119,13 +127,15 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                       ChoiceChip(
                         label: const Text('Semua'),
                         selected: _categoryFilter == null,
-                        onSelected: (_) => setSheetState(() => _categoryFilter = null),
+                        onSelected: (_) =>
+                            setSheetState(() => _categoryFilter = null),
                       ),
                       ...allCategories.map(
                         (c) => ChoiceChip(
                           label: Text(c),
                           selected: _categoryFilter == c,
-                          onSelected: (_) => setSheetState(() => _categoryFilter = c),
+                          onSelected: (_) =>
+                              setSheetState(() => _categoryFilter = c),
                         ),
                       ),
                     ],
@@ -133,7 +143,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      const Text('Rentang Tanggal', style: TextStyle(fontWeight: FontWeight.w600)),
+                      const Text('Rentang Tanggal',
+                          style: TextStyle(fontWeight: FontWeight.w600)),
                       const Spacer(),
                       TextButton(
                         onPressed: () async {
@@ -142,7 +153,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                             firstDate: DateTime(2020),
                             lastDate: DateTime(2100),
                           );
-                          if (range != null) setSheetState(() => _dateFilter = range);
+                          if (range != null)
+                            setSheetState(() => _dateFilter = range);
                         },
                         child: Text(_dateFilter == null
                             ? 'Pilih tanggal'
@@ -191,7 +203,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     final txProvider = context.watch<TransactionProvider>();
     final filtered = _applyFilters(txProvider.transactions);
     final grouped = _groupByDate(filtered);
-    final hasActiveFilter = _typeFilter != null || _categoryFilter != null || _dateFilter != null;
+    final hasActiveFilter =
+        _typeFilter != null || _categoryFilter != null || _dateFilter != null;
 
     return Scaffold(
       appBar: AppBar(
@@ -234,22 +247,28 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
               child: txProvider.isLoading && txProvider.transactions.isEmpty
                   ? const Center(child: CircularProgressIndicator())
                   : filtered.isEmpty
-                      ? const EmptyState(message: 'Tidak ada transaksi yang cocok')
+                      ? const Center(
+                          child: EmptyState(
+                              message: 'Tidak ada transaksi yang cocok'))
                       : ListView(
                           padding: const EdgeInsets.all(16),
                           children: grouped.entries.expand((entry) {
                             return [
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 8, top: 8),
+                                padding:
+                                    const EdgeInsets.only(bottom: 8, top: 8),
                                 child: Text(
                                   entry.key,
-                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13),
                                 ),
                               ),
                               ...entry.value.map(
                                 (t) => TransactionCard(
                                   transaction: t,
-                                  onTap: () => context.push('/transactions/${t.id}', extra: t),
+                                  onTap: () => context
+                                      .push('/transactions/${t.id}', extra: t),
                                 ),
                               ),
                             ];

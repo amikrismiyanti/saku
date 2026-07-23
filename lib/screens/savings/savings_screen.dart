@@ -124,10 +124,22 @@ class _SavingsScreenState extends State<SavingsScreen> {
         child: provider.isLoading && provider.goals.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : provider.goals.isEmpty
-                ? const EmptyState(
-                    message:
-                        'Belum ada target tabungan.\nTekan "Tambah Target" untuk mulai.',
-                    icon: Icons.savings_outlined,
+                ? LayoutBuilder(
+                    builder: (context, constraints) => SingleChildScrollView(
+                      physics:
+                          const AlwaysScrollableScrollPhysics(), // wajib, biar RefreshIndicator tetap bisa di-drag walau konten pendek
+                      child: ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minHeight: constraints.maxHeight),
+                        child: const Center(
+                          child: EmptyState(
+                            message:
+                                'Belum ada target tabungan.\nTekan "Tambah Target" untuk mulai.',
+                            icon: Icons.savings_outlined,
+                          ),
+                        ),
+                      ),
+                    ),
                   )
                 : ListView(
                     padding: const EdgeInsets.all(16),

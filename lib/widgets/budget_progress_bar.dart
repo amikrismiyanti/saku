@@ -10,7 +10,8 @@ class BudgetProgressBar extends StatelessWidget {
   final VoidCallback? onTap;
   final VoidCallback? onDelete;
 
-  const BudgetProgressBar({super.key, required this.budget, this.onTap, this.onDelete});
+  const BudgetProgressBar(
+      {super.key, required this.budget, this.onTap, this.onDelete});
 
   Color get _color {
     if (budget.isOverBudget) return AppColors.danger;
@@ -35,12 +36,15 @@ class BudgetProgressBar extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(budget.category,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15)),
                   ),
                   if (budget.isOverBudget)
-                    const Icon(Icons.error_outline, color: AppColors.danger, size: 18)
+                    const Icon(Icons.error_outline,
+                        color: AppColors.danger, size: 18)
                   else if (budget.isNearLimit)
-                    const Icon(Icons.warning_amber_rounded, color: AppColors.warning, size: 18),
+                    const Icon(Icons.warning_amber_rounded,
+                        color: AppColors.warning, size: 18),
                   if (onDelete != null)
                     IconButton(
                       icon: const Icon(Icons.delete_outline, size: 18),
@@ -52,7 +56,8 @@ class BudgetProgressBar extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 '${CurrencyFormatter.format(budget.spent)} / ${CurrencyFormatter.format(budget.amount)}',
-                style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                style: const TextStyle(
+                    color: AppColors.textSecondary, fontSize: 13),
               ),
               const SizedBox(height: 10),
               ClipRRect(
@@ -65,7 +70,11 @@ class BudgetProgressBar extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4),
-              Text('$percent%', style: TextStyle(color: _color, fontSize: 12, fontWeight: FontWeight.w600)),
+              Text('$percent%',
+                  style: TextStyle(
+                      color: _color,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600)),
             ],
           ),
         ),
